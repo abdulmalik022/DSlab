@@ -6,11 +6,11 @@ import java.net.*;
 import java.io.*;
 
 public class server3 extends JFrame implements ActionListener {
+    JLabel label = new JLabel("Enter Ur Text :: ");
+    JTextField text = new JTextField(20);
     JButton send = new JButton("SEND");
     JTextArea area = new JTextArea(20, 20);
     JScrollPane jsp = new JScrollPane(area);
-    JTextField text = new JTextField(20);
-    JLabel label = new JLabel("Enter Ur Text :: ");
     JPanel panel = new JPanel();
     
     ServerSocket server;

@@ -6,9 +6,9 @@ import java.net.*;
 import java.io.*;
 
 public class pracclient3 extends JFrame implements ActionListener {
-    JButton sendbtn = new JButton("SEND");
-    JTextField textfield = new JTextField(12);
     JLabel label = new JLabel("Enter your message: ");
+    JTextField textfield = new JTextField(20);
+    JButton sendbtn = new JButton("SEND");
     JPanel panel = new JPanel();
     JTextArea textarea = new JTextArea(20,20);
     JScrollPane scrollpane = new JScrollPane(textarea);
@@ -19,14 +19,18 @@ public class pracclient3 extends JFrame implements ActionListener {
 
     public pracclient3() {
         super("Client Window");
+
         panel.add(label);
         panel.add(textfield);
         panel.add(sendbtn);
         add(panel, BorderLayout.SOUTH);
+
         add(scrollpane);
         textarea.setEditable(false);
+
         sendbtn.addActionListener(this);
         textfield.addActionListener(this);
+        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500,500);
         setVisible(true);

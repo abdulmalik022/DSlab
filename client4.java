@@ -3,15 +3,15 @@ import java.io.*;
 
 public class client4 {
     public static void main(String args[]) {
-        Socket s = null;
+        Socket client = null;
         try {
             int serverport = 7896;
-            s = new Socket(args[0], serverport);
+            client = new Socket(args[0], serverport);
 
             //InputStream
-            DataInputStream in = new DataInputStream(s.getInputStream());
+            DataInputStream in = new DataInputStream(client.getInputStream());
             //OutputStream
-            DataOutputStream out = new DataOutputStream(s.getOutputStream());
+            DataOutputStream out = new DataOutputStream(client.getOutputStream());
 
             //send message to server
             out.writeUTF(args[1]);
@@ -25,9 +25,9 @@ public class client4 {
         } catch (IOException e) {
             System.out.println("IO:" + e.getMessage());
         } finally {
-            if (s != null)
+            if (client != null)
                 try {
-                    s.close();
+                    client.close();
                 } catch (IOException e) {
                     System.out.println("close failed");
                 }

@@ -15,45 +15,49 @@ public class server1 {
             System.out.println("Server waiting for connection...");
             Socket client = server.accept();
             System.out.println("SERVER SOCKET IS CREATED");
-            //receives data from client (like a container)
+
+            // receives data from client (like a container)
             DataInputStream input = new DataInputStream(client.getInputStream());
+            PrintStream output = new PrintStream(client.getOutputStream());
 
             String option = input.readLine();
             if (option.equals("upload")) {
                 System.out.println("Upload text");
+
+                // receive filename from client
                 String inputfile = input.readLine();
 
-                //points to location and creates an empty file with name "inputfile"
-                File serverfile = new File("./server-files/"+inputfile);
+                // points to location and creates an empty file with name "inputfile"
+                File serverfile = new File("./server-files/" + inputfile);
 
-                //writer to write data into the file with name "serverfile"
+                // writer to write data into the file with name "serverfile"
                 FileOutputStream fout = new FileOutputStream(serverfile);
-                
-                //process to writing data into the file,character by character
+
+                // process to writing data into the file,character by character
                 int ch;
                 while ((ch = input.read()) != -1) {
                     fout.write((char) ch);
                 }
                 fout.close();
+                input.close();
             }
             if (option.equals("download")) {
-                System.out.println("dowload text");
+                System.out.println("download text");
                 String inputfile = input.readLine();
 
-                File clientfile = new File("./client-files/"+inputfile);
-                //read
+                File clientfile = new File(inputfile);
+                // reader for reading contents from file named "clientfile"
                 FileInputStream fin = new FileInputStream(clientfile);
 
-                //send file to client
-                PrintStream out = new PrintStream(client.getOutputStream());
-                int n = fin.read();
-                while (n != -1) {
-                    out.print((char) n);
-                    n = fin.read();
+                // send file to client
+                int n;
+                while ((n = fin.read()) != -1) {
+                    output.print((char) n);
                 }
                 fin.close();
-                out.close();
+                output.close();
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

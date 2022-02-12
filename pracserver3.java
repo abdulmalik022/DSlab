@@ -20,14 +20,18 @@ public class pracserver3 extends JFrame implements ActionListener {
 
     public pracserver3() {
         super("Server Window");
+
         panel.add(label);
         panel.add(textfield);
         panel.add(sendbtn);
         add(panel, BorderLayout.SOUTH);
+
         add(scrollpane);
         textarea.setEditable(false);
+
         sendbtn.addActionListener(this);
         textfield.addActionListener(this);
+        
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(500, 500);
         setVisible(true);
