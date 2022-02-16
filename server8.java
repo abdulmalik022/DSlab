@@ -28,7 +28,7 @@ class server8 {
 
                 //receive data from client
                 str2 = br2.readLine();
-                System.out.println("The Received Data " + str2);
+                System.out.println("Received Data: \n" + str2);
                 if (str2.equals("bye"))
                     break;
             }

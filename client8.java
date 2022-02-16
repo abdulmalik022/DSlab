@@ -21,12 +21,12 @@ class client8 {
             while (true) {
                 // receive data from Server
                 str1 = br2.readLine();
-                System.out.println("The Received Data :" + str1);
+                System.out.println("Received Data:\n" + str1);
                 if (str1.equals("bye"))
                     break;
 
                 // send data to Server
-                System.out.println("Enter the data to send");
+                System.out.println("Enter the data to send:");
                 str2 = br1.readLine();
                 pw.println(str2);
             }
