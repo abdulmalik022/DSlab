@@ -6,12 +6,12 @@ import java.net.*;
 import java.io.*;
 
 public class client3 extends JFrame implements ActionListener {
-    JButton send = new JButton("SEND");
-    JTextArea area = new JTextArea(20, 20);
-    JScrollPane jsp = new JScrollPane(area);
-    JTextField text = new JTextField(20);
-    JLabel label = new JLabel("Enter Ur Text :: ");
+    JLabel label = new JLabel("Enter your message: ");
+    JTextField textfield = new JTextField(20);
+    JButton sendbtn = new JButton("SEND");
     JPanel panel = new JPanel();
+    JTextArea textarea = new JTextArea(20,20);
+    JScrollPane scrollpane = new JScrollPane(textarea);
 
     Socket client;
     DataInputStream din;
@@ -19,52 +19,58 @@ public class client3 extends JFrame implements ActionListener {
 
     public client3() {
         super("Client Window");
-        panel.add(label);
-        panel.add(text);
-        panel.add(send);
-        add(panel, BorderLayout.SOUTH);
-        add(jsp);
-        send.addActionListener(this);
-        text.addActionListener(this);
-        area.setEditable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(500, 500);
-        setVisible(true);
 
+        panel.add(label);
+        panel.add(textfield);
+        panel.add(sendbtn);
+        add(panel, BorderLayout.SOUTH);
+
+        add(scrollpane);
+        textarea.setEditable(false);
+
+        sendbtn.addActionListener(this);
+        textfield.addActionListener(this);
+        
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(500,500);
+        setVisible(true);
         try {
-            client = new Socket("localhost", 7000);
-            pw = new PrintWriter(client.getOutputStream());
+            int serverport = 6789;
+            client = new Socket("localhost",serverport);
+            textarea.setText("Client is now Connected to Server\n");
             din = new DataInputStream(client.getInputStream());
-        } catch (Exception e) {
-            System.out.println("\n\tException " + e);
+            pw = new PrintWriter(client.getOutputStream());
+        } catch(Exception e) {
+            System.out.println("Exception: "+e.getMessage());
         }
     }
 
     public void receive() {
         try {
             String msg;
-            while ((msg = din.readLine()) != null) {
-                String temp = "\nServer : " + msg;
-                area.append(temp);
+            while((msg = din.readLine()) != null) {
+                String temp = "\nServer: "+msg;
+                textarea.append(temp);
             }
         } catch (Exception e) {
-            System.out.println("Exception " + e);
+            System.out.println("Exception: "+e.getMessage());
         }
     }
 
     public void actionPerformed(ActionEvent ae) {
         try {
-            String msg = "\nClient : " + text.getText();
-            area.append(msg);
-            pw.println(text.getText());
+            String msg = "\nClient: "+textfield.getText();
+            textarea.append(msg);
+            pw.println(textfield.getText());
             pw.flush();
-            text.setText("");
-        } catch (Exception e) {
-            System.out.println("Exception " + e);
+            textfield.setText("");
+        } catch(Exception e) {
+            System.out.println("Exception: "+e.getMessage());
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new client3().receive();
     }
+
 }
