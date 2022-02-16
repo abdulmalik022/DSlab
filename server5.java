@@ -10,16 +10,18 @@ public class server5 {
 
             System.out.println("Server is listening:");
             while (true) {
+                //create an incoming packet to receive data
+                DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
+                server.receive(incoming);
 
-                DatagramPacket request = new DatagramPacket(buffer, buffer.length);
-                server.receive(request);
-
-                String msg = new String(request.getData());
+                //Parse and display data from incoming packet
+                String msg = new String(incoming.getData());
                 System.out.println("Data received from client: " + msg);
-
-                DatagramPacket reply = new DatagramPacket(request.getData(), request.getLength(), request.getAddress(),
-                        request.getPort());
-                server.send(reply);
+                
+                //create an outgoing packet to send data
+                DatagramPacket outgoing = new DatagramPacket(incoming.getData(), incoming.getLength(), incoming.getAddress(),
+                        incoming.getPort());
+                server.send(outgoing);
             }
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());

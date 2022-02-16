@@ -6,7 +6,7 @@ class server9 {
         try {
             String str1, str2;
             DatagramSocket ds;
-            DatagramPacket request, reply;
+            DatagramPacket incoming, outgoing;
             byte[] data1 = new byte[1024];
             byte[] data2 = new byte[1024];
             BufferedReader br1;
@@ -17,19 +17,24 @@ class server9 {
             br1 = new BufferedReader(new InputStreamReader(System.in));
 
             while (true) {
+                //get input from console
                 System.out.println("Enter the data to send");
                 str1 = br1.readLine();
                 data1 = str1.getBytes();
-                request = new DatagramPacket(data1, data1.length, InetAddress.getLocalHost(), clientport);
-                ds.send(request);
+
+                //create an outgoing packet to send data
+                outgoing = new DatagramPacket(data1, data1.length, InetAddress.getLocalHost(), clientport);
+                ds.send(outgoing);
                 if (str1.equals("bye"))
                     break;
 
-                reply = new DatagramPacket(data2, data2.length);
-                ds.receive(reply);
-                // str2 = new String(reply.getData(), 0, reply.getLength());
-                str2 = new String(reply.getData());
-                System.out.println("The Received Data:\n" + str2);
+                //create an incoming packet to receive data
+                incoming = new DatagramPacket(data2, data2.length);
+                ds.receive(incoming);
+                
+                //Parse and display data from incoming packet
+                str2 = new String(incoming.getData());
+                System.out.println("Received Data:\n" + str2);
                 if (str2.equals("bye"))
                     break;
             }

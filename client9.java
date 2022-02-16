@@ -6,7 +6,7 @@ class client9 {
         try {
             String str1, str2;
             DatagramSocket ds;
-            DatagramPacket request, reply;
+            DatagramPacket incoming, outgoing;
             byte[] data1 = new byte[1024];
             byte[] data2 = new byte[1024];
             BufferedReader br;
@@ -17,26 +17,28 @@ class client9 {
             br = new BufferedReader(new InputStreamReader(System.in));
 
             while (true) {
-                request = new DatagramPacket(data1, data1.length);
-                ds.receive(request);
-                // str1 = new String(request.getData(), 0, request.getLength());
-                str1 = new String(request.getData());
-                System.out.println("\nLength is " + request.getLength());
+                // create an incoming packet to receive data
+                incoming = new DatagramPacket(data1, data1.length);
+                ds.receive(incoming);
+
+                // Parse and display data from incoming packet
+                str1 = new String(incoming.getData());
+                System.out.println("\nLength is " + incoming.getLength());
                 System.out.println("The Received Data:\n" + str1);
                 if (str1.equals("bye"))
                     break;
+
+                // get input from console
                 System.out.println("Enter the data to send");
                 str2 = br.readLine();
                 data2 = str2.getBytes();
-                reply = new DatagramPacket(data2, data2.length, InetAddress.getLocalHost(), serverport);
-                ds.send(reply);
+
+                // create an outgoing packet to send data
+                outgoing = new DatagramPacket(data2, data2.length, InetAddress.getLocalHost(), serverport);
+                ds.send(outgoing);
             }
-        } catch (BindException e) {
-            System.out.println(e);
-        } catch (SocketException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
         }
     }
 }
