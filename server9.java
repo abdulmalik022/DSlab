@@ -6,35 +6,35 @@ class server9 {
         try {
             String str1, str2;
             DatagramSocket ds;
-            DatagramPacket dp1, dp2;
-            InetAddress ia;
+            DatagramPacket request, reply;
             byte[] data1 = new byte[1024];
             byte[] data2 = new byte[1024];
             BufferedReader br1;
-            ds = new DatagramSocket(1500);
-            ia = InetAddress.getLocalHost();
+
+            int serverport = 1500;
+            int clientport = 1700;
+            ds = new DatagramSocket(serverport);
             br1 = new BufferedReader(new InputStreamReader(System.in));
+
             while (true) {
                 System.out.println("Enter the data to send");
                 str1 = br1.readLine();
                 data1 = str1.getBytes();
-                dp1 = new DatagramPacket(data1, data1.length, ia, 1700);
-                ds.send(dp1);
+                request = new DatagramPacket(data1, data1.length, InetAddress.getLocalHost(), clientport);
+                ds.send(request);
                 if (str1.equals("bye"))
                     break;
-                dp2 = new DatagramPacket(data2, data2.length);
-                ds.receive(dp2);
-                str2 = new String(dp2.getData(), 0, dp2.getLength());
-                System.out.println("The Received Data " + str2);
+
+                reply = new DatagramPacket(data2, data2.length);
+                ds.receive(reply);
+                // str2 = new String(reply.getData(), 0, reply.getLength());
+                str2 = new String(reply.getData());
+                System.out.println("The Received Data:\n" + str2);
                 if (str2.equals("bye"))
                     break;
             }
-        } catch (BindException e) {
-            System.out.println(e);
-        } catch (SocketException e) {
-            System.out.println(e);
-        } catch (IOException e) {
-            System.out.println(e);
+        } catch(Exception e) {
+            System.out.println("Exception: "+e.getMessage());
         }
     }
 }
