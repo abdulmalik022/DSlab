@@ -82,7 +82,6 @@ public class client1 extends JFrame implements ActionListener {
                 out.println(filename);
 
                 FileInputStream fis = new FileInputStream(path);
-                // int n = fis.read();
                 int ch;
                 while ((ch = fis.read()) != -1) {
                     out.print((char) ch);

@@ -41,6 +41,7 @@ public class server1 {
                 fout.close();
                 input.close();
             }
+            
             if (option.equals("download")) {
                 System.out.println("download text");
                 String inputfile = input.readLine();
