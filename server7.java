@@ -11,7 +11,7 @@ public class server7 extends JFrame implements ActionListener {
     JLabel label;
     JTextField textfield;
     JPanel p1, p2;
-    JButton b1, b2;
+    JButton send, close;
 
     ServerSocket server;
     Socket client;
@@ -25,19 +25,19 @@ public class server7 extends JFrame implements ActionListener {
         scrollpane = new JScrollPane(textarea);
         label = new JLabel("Enter Text");
         textfield = new JTextField(20);
-        b1 = new JButton("send");
-        b2 = new JButton("close");
+        send = new JButton("send");
+        close = new JButton("close");
         p1 = new JPanel();
         p2 = new JPanel();
 
         p1.add(label);
         p1.add(textfield);
 
-        p2.add(b1);
-        p2.add(b2);
+        p2.add(send);
+        p2.add(close);
 
-        b1.addActionListener(this);
-        b2.addActionListener(this);
+        send.addActionListener(this);
+        close.addActionListener(this);
 
         add(scrollpane, BorderLayout.CENTER);
         add(p1, BorderLayout.NORTH);
@@ -59,12 +59,12 @@ public class server7 extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         try {
-            if (ae.getSource() == b1) {
+            if (ae.getSource() == send) {
                 String s = textfield.getText();
                 textarea.append("\nServer: " + s);
                 output.writeUTF(s);
             }
-            if (ae.getSource() == b2) {
+            if (ae.getSource() == close) {
                 textarea.append("Transmission complete.closing socket \n");
                 client.close();
                 System.exit(0);
